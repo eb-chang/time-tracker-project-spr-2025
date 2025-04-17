@@ -1,0 +1,5 @@
+#ifndef POMODORO_CLASS_H
+#define POMODORO_CLASS_H
+
+
+#endif //POMODORO_CLASS_H
