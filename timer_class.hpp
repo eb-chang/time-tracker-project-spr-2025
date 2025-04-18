@@ -10,7 +10,7 @@ using namespace std;
 
 class Timer {
     private:
-        int focusTime; // focus time in minutes
+        int focusTime; // goal focus time in minutes
     public:
         //constructors
         Timer();
@@ -25,7 +25,7 @@ class Timer {
         //functions
         void start();
         void stop();
-        void cancel();
+        void cancel(); //note: output amt of time actually focused: focusTime-time remaining on timer
 
         //destructor
         ~Timer();
