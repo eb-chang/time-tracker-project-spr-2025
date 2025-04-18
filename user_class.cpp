@@ -70,8 +70,7 @@ void User::signup() {
         cout << "Enter a password: ";
         cin >> pwd;
     
- 
-        userData << nm << " " << pwd;
+        //userData.write();
 
         cout << "Data written to file.";
         userData.close();
