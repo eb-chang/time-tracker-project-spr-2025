@@ -1,6 +1,9 @@
 #ifndef USER_CLASS_H
 #define USER_CLASS_H
 
+#include "timer_class.hpp"
+#include "pomodoro_class.hpp"
+
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -13,6 +16,8 @@ class User {
         string name; // user's name
         string password;
         // TODO: history storage mechanism
+        vector<Timer> tHistory;
+        vector<Pomodoro> pHistory;  //maybe a stretch goal
     public:
         //constructor
         User();
