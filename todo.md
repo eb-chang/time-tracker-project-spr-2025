@@ -10,4 +10,4 @@
 
 ### binary file
 - [ ] prevent user from inputting delimiter characters (space, newline, comma, etc) in their username or password.
-- [ ] choose a delimiter (right now it is the space character)
+- [ ] figure out how to read in binary file data for each history vector in User class.
