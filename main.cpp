@@ -7,7 +7,7 @@
 using namespace std;
 
 int main(){
-    string filename = "test4.bin";
+    string filename = "userdata.bin";
     User testUser;
     testUser.startMenu( filename );
     testUser.adminMenu( filename );
