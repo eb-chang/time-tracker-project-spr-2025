@@ -154,7 +154,7 @@ bool User::searchFor(string name, string filename) {
     for (int i = 0; i < nUsers; i++) {
         infile.seekg(i* (2*USERDATA_SIZE + 2*__SIZEOF_INT__ + 1) + __SIZEOF_INT__);
         infile.read(reinterpret_cast<char*>(&buffer), sizeof(buffer));
-        cout << i+1 << ". " << buffer << endl;
+        //cout << i+1 << ". " << buffer << endl;
 
         // if user is found, return byte at which user data is stored.
         if (buffer == name) {
