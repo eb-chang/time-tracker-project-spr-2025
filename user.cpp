@@ -94,6 +94,10 @@ bool User::checkPwd() {
 }
 
 // TODO: Clean up return statements to logic statements
+/*
+Checks if the argument string is a valid username, i.e.,
+less than 16 chars, not empty, and alphanumeric
+*/
 bool User::isValidName(string name) {
     // name isn't valid if string is empty
     if (name.length() < 1) {
@@ -115,7 +119,10 @@ bool User::isValidName(string name) {
     // name is valid.
     return true;
 }
-
+/*
+Checks if the argument string is a valid password,
+i.e., less than 16 chars and not empty
+*/
 bool User::isValidPwd(string pwd) {
     // pwd isn't valid if it is 16 chars or longer
     return (pwd.length() < 16);
@@ -124,6 +131,9 @@ bool User::isValidPwd(string pwd) {
     return (pwd.length() != 0);
 } 
 
+/*
+Returns true if the argument string is found in the binary file filename
+*/
 bool User::searchFor(string name, string filename) {
     char buffer[USERDATA_SIZE];
     int nUsers;
@@ -161,6 +171,9 @@ bool User::searchFor(string name, string filename) {
     return false;
 }
 
+/*
+Output login/signup menu interface for user
+*/
 void User::startMenu(string filename) {
     cout << "===========================" << endl;
     cout << " Welcome to the Timer App! " << endl;
@@ -220,7 +233,9 @@ void User::startMenu(string filename) {
     return;
     
 }
-
+/*
+Output main timer menu interface for user
+*/
 void User::timerMenu() {
     string input;
     char choice;
@@ -278,6 +293,9 @@ void User::timerMenu() {
     return;
 }
 
+/*
+Outputs user’s timer totals
+*/
 void User::printData() {
     cout << "===========================" << endl;
     cout << "        Focus Stats        " << endl;
@@ -287,6 +305,9 @@ void User::printData() {
     cout << "Total pomodoro timer minutes: " << pomTotal/60 << "min " << pomTotal%60 << "s" << endl;
 }
 
+/*
+Loads user data from filename
+*/
 bool User::login(string filename) {
     ifstream infile(filename, ios::binary | ios::in);
     
@@ -332,6 +353,9 @@ bool User::login(string filename) {
     return true;
 }
 
+/*
+Creates new user data in filename
+*/
 bool User::signup(string filename) {
     int nUsers;
     ifstream infile(filename, ios::binary | ios::in);
@@ -392,6 +416,9 @@ bool User::signup(string filename) {
     return true;
 }
 
+/*
+Saves out user data to filename
+*/
 void User::save(string filename) {
     // flags: append
     fstream outfile(filename, ios::binary | ios::in | ios::out);
@@ -408,6 +435,9 @@ void User::save(string filename) {
 
 // === admin functions === //
 
+/*
+Outputs admin menu interface if a user is an admin
+*/
 void User::adminMenu(string filename) {
     if (!admin) {
         // not allowed to access this function if user is not an admin
@@ -457,6 +487,9 @@ void User::adminMenu(string filename) {
     } while (choice != 'C');
 }
 
+/*
+Returns byte position of argument string in filename. Returns -1 if not found.
+*/
 int User::find(string name, string filename) {
     char buffer[USERDATA_SIZE];
     int nUsers;
@@ -486,6 +519,9 @@ int User::find(string name, string filename) {
     return -1;
 }
 
+/*
+Allows an admin to edit respective total values for a user.
+*/
 void User::edit(string filename) {
     if (!admin) {
         // not allowed to access this function if user is not an admin
@@ -577,6 +613,7 @@ void User::edit(string filename) {
     return;
 }
 
+// in progress
 void User::remove(string filename) {
     if (!admin) {
         // not allowed to access this function if user is not an admin
