@@ -8,6 +8,7 @@ using namespace std;
 
 Timer::Timer() {
     focusTime = 0;
+    done = false;
 }
 
 Timer::Timer(int tFocus) {
@@ -15,6 +16,9 @@ Timer::Timer(int tFocus) {
 }
 
 // === setters === //
+void Timer::setDone(bool flag) {
+    done = flag;
+}
 
 void Timer::setFocusTime(int tFocus) {
     focusTime = tFocus;
@@ -22,13 +26,53 @@ void Timer::setFocusTime(int tFocus) {
 
 // === getters === //
 
+bool Timer::isDone() {
+    return done;
+}
+
 int Timer::getFocusTime() {
     return focusTime;
 }
 
 // === functions === //
+bool Timer::confirm() {
+    string input;
+    char choice;
 
-void Timer::displayTimer() {
+    int minutes = focusTime/60;
+    int seconds = focusTime%60;
+    cout << "Would you like to start a timer for " << minutes << " min " << seconds << "s?" << endl;
+    cout << "   A) Start" << endl;
+    cout << "   B) Cancel" << endl;
+
+    do {
+        cin >> input;
+        cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+
+        if (input.size() >1) {
+            cout << input << " is not a valid choice." << endl;
+            continue;
+        }
+        
+        choice = input[0];
+
+        switch (choice) {
+            case 'A':
+            return true;
+            break;
+
+            case 'B':
+            break;
+
+            default:
+            cout << choice << " is not a valid choice." << endl;
+        }
+        cout << endl;
+    } while (choice != 'B');
+    return false;
+}
+
+void Timer::display() {
     for (int i = this->focusTime; i >= 0; --i) {
         // update minutes and seconds for display
         int minutes = i / 60;
@@ -46,6 +90,19 @@ void Timer::displayTimer() {
 
     // extra spaces to overwrite time remaining text
     cout << "\rTime's up!           " << endl;
+    done = true;
+}
+
+bool Timer::run() {
+    // reset done flag
+    done = false;
+
+    selectFocusTime();
+    if (!confirm()) {
+        return done;
+    }
+    display();
+    return done;
 }
 
 void Timer::selectFocusTime() {
@@ -118,7 +175,7 @@ int Timer::customTime() {
     while (!valid) {
         try {
 
-            cout << "Enter a custom time: ";
+            cout << "Enter a custom time in seconds: ";
             cin >> customTime;
 
             // check if input is integer
@@ -147,6 +204,6 @@ int Timer::customTime() {
         }
     }
 
-    cout << "time: " << customTime << endl;
+    // debug: cout << "time: " << customTime << endl;
     return customTime;
 }
