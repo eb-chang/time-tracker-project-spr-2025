@@ -44,6 +44,11 @@ Pomodoro User::getpomtim() {
 
 
 // === functions === //
+
+/*
+Gets a user-input username that is validated, then set as the User object's name.
+Used in User::login() and User::signup().
+*/
 void User::inputName() {
     cout << "Enter a username: ";
     cin.getline(this->name, USERDATA_SIZE);
@@ -55,6 +60,10 @@ void User::inputName() {
     }
 }
 
+/*
+Gets a user-input password that is validated, then set as the User object's password.
+Used in User::login() and User::signup().
+*/
 void User::inputPwd() {
     cout << "Enter a password: ";
     cin.getline(this->password, USERDATA_SIZE);
@@ -66,6 +75,9 @@ void User::inputPwd() {
     }
 }
 
+/*
+Checks if a user-input password matches the password private member.
+*/
 bool User::checkPwd() {
     string input;
     
@@ -107,6 +119,9 @@ bool User::isValidName(string name) {
 bool User::isValidPwd(string pwd) {
     // pwd isn't valid if it is 16 chars or longer
     return (pwd.length() < 16);
+
+    // pwd isn't valid if it is empty
+    return (pwd.length() != 0);
 } 
 
 bool User::searchFor(string name, string filename) {
