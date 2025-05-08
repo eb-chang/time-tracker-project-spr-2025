@@ -232,10 +232,6 @@ void Pomodoro::selectReps() {
                 this->nReps = customReps();
                 break;
             
-            case 'E':
-                valid = true;
-                break;
-            
             default:
                 cout << choice << " is not a valid choice." << endl;
                 break;

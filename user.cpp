@@ -322,7 +322,6 @@ bool User::login(string filename) {
     // find a user in record
     inputName();
     bool isFound = searchFor(name, filename);
-    cout << "found: " << isFound << endl;
 
     // if user is found, grab password from record.
     if (isFound) {
@@ -454,8 +453,7 @@ void User::adminMenu(string filename) {
     do {
         cout << "Please choose an action: " << endl;
         cout << "   A) Edit a Record" << endl;
-        cout << "   B) Delete a Record" << endl;
-        cout << "   C) Continue to Timer app" << endl;
+        cout << "   B) Continue to Timer app" << endl;
 
         cin >> input;
         cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
@@ -473,10 +471,6 @@ void User::adminMenu(string filename) {
                 break;
             
             case 'B':
-                remove(filename);
-                break;
-
-            case 'C':
                 break;
             
             default:
@@ -484,7 +478,7 @@ void User::adminMenu(string filename) {
             break;
         }
         cout << endl;
-    } while (choice != 'C');
+    } while (choice != 'B');
 }
 
 /*
@@ -503,7 +497,7 @@ int User::find(string name, string filename) {
     for (int i = 0; i < nUsers; i++) {
         infile.seekg(i* (2*USERDATA_SIZE + 2*__SIZEOF_INT__ + 1) + __SIZEOF_INT__);
         infile.read(reinterpret_cast<char*>(&buffer), sizeof(buffer));
-        cout << i+1 << ". " << buffer << endl;
+
 
         // if user is found, return byte at which user data is stored.
         if (buffer == name) {

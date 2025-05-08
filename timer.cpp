@@ -126,7 +126,6 @@ void Timer::selectFocusTime() {
         cout << "   B) 30 minutes" << endl;
         cout << "   C) 45 minutes" << endl;
         cout << "   D) Custom focus time" << endl;
-        cout << "   E) Quit" << endl;
 
         // get user choice
         cin >> input;
@@ -159,10 +158,6 @@ void Timer::selectFocusTime() {
             case 'D':
                 valid = true;
                 this->focusTime = customTime();
-                break;
-            
-            case 'E':
-                valid = true;
                 break;
 
             default:
