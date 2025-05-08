@@ -7,45 +7,14 @@ using namespace std;
 // === constructors === //
 
 User::User() {
-    name[0] = '\n';
-    password[0] = '\n';
+    name[0] = '\0';
+    password[0] = '\0';
     
     stdTotal = 0;
     pomTotal = 0;
-    //tHistory = {};
-    //pHistory = {};
-}
-/*
-User::User(string nm, string pwd) {
-    name = nm;
-    password = pwd;
-    tHistory = {};
-    pHistory = {};
-}
 
-User::User(string nm, string pwd, vector<Timer> t_hist, vector<Pomodoro> p_hist) {
-    this->name = nm;
-    this->password = pwd;
-    this->tHistory = t_hist;
-    this->pHistory = p_hist;
+    admin = false;
 }
-*/
-
-// === setters === //
-
-/*
-void User::setName(string nm) {
-    this->name = nm;
-}
-
-void User::setPassword(string pwd) {
-    this->password = pwd;
-}
-
-void User::setTimerHist(vector<Timer> t_hist) {
-    this->tHistory = t_hist;
-}
-    */
 
 // === getters === //
 
@@ -55,6 +24,14 @@ string User::getName() {
 
 string User::getPassword() {
     return password;
+}
+
+int User::getTotstdtim() {
+    return stdTotal;
+}
+
+int User::getTotpomtim() {
+    return pomTotal;
 }
 
 Timer User::getstdtim() {
@@ -149,9 +126,8 @@ bool User::searchFor(string name, string filename) {
     }
 
     // search for user byte
-    cout << "nUsers = " << nUsers << endl;
     for (int i = 0; i < nUsers; i++) {
-        infile.seekg(i* (2*USERDATA_SIZE + 2*__SIZEOF_INT__) + __SIZEOF_INT__);
+        infile.seekg(i* (2*USERDATA_SIZE + 2*__SIZEOF_INT__ + 1) + __SIZEOF_INT__);
         infile.read(reinterpret_cast<char*>(&buffer), sizeof(buffer));
         cout << i+1 << ". " << buffer << endl;
 
@@ -160,12 +136,13 @@ bool User::searchFor(string name, string filename) {
             infile.seekg(-USERDATA_SIZE, ios::cur); // back it up
             
             this->pos = infile.tellg();
-            cout << "user found at byte " << pos << endl;
+            infile.close();
             return true;
         }
     }
 
     // if user is not found, return false
+    infile.close();
     return false;
 }
 
@@ -301,7 +278,7 @@ bool User::login(string filename) {
     // if file doesn't exist, user cannot log in.
     if (!infile) {
         cout << "Error: file does not exist. Please sign-up instead." << endl;
-        return !infile;
+        return false;
     }
     
     // if file opens, continue on!
@@ -322,7 +299,6 @@ bool User::login(string filename) {
 
     // if passwords match, dump record data into user object
     if (!checkPwd()) {
-        cout << "login unsuccessful";
         infile.close();
         return false;
     }
@@ -334,9 +310,9 @@ bool User::login(string filename) {
     // load pomodoro timer data
     infile.read(reinterpret_cast<char*>(&pomTotal), sizeof(pomTotal));
 
-    cout << "standard timer: " << stdTotal << endl;
-    cout << "pomodoro timer: " << pomTotal << endl;
-    cout << "Login successful." << endl;
+    // load admin data
+    infile.read(reinterpret_cast<char*>(&admin), sizeof(admin));
+
     infile.close();
     return true;
 }
@@ -379,6 +355,7 @@ bool User::signup(string filename) {
 
     if(outfile.tellp() == 0) {
         outfile.write(reinterpret_cast<char*>(&nUsers), sizeof(nUsers));
+        admin = true;
     }
 
     // write out timer data
@@ -386,6 +363,7 @@ bool User::signup(string filename) {
     outfile.write(reinterpret_cast<char*>(&password), sizeof(password));
     outfile.write(reinterpret_cast<char*>(&stdTotal), sizeof(stdTotal));
     outfile.write(reinterpret_cast<char*>(&pomTotal), sizeof(pomTotal));
+    outfile.write(reinterpret_cast<char*>(&admin), sizeof(admin));
     outfile.close();
 
     // write out new nUsers
@@ -393,7 +371,6 @@ bool User::signup(string filename) {
     nUsers++;
     update.seekp(0, ios::beg);
     update.write(reinterpret_cast<char*>(&nUsers), sizeof(nUsers));
-    cout << "nusers is now " << nUsers << endl;
     update.close();
 
     // if you get here, sign-up successful!
@@ -403,15 +380,191 @@ bool User::signup(string filename) {
 void User::save(string filename) {
     // flags: append
     fstream outfile(filename, ios::binary | ios::in | ios::out);
-    
     outfile.seekp(pos+2*USERDATA_SIZE, ios::beg);
 
-    cout << "do we get here?" << endl;
     // move ptr to user pos & write out timer data
-    cout << outfile.tellp();
     outfile.write(reinterpret_cast<char*>(&stdTotal), sizeof(stdTotal));
     outfile.write(reinterpret_cast<char*>(&pomTotal), sizeof(pomTotal));
+    outfile.write(reinterpret_cast<char*>(&admin), sizeof(admin));
 
     // done saving user data.
     outfile.close();
+}
+
+// === admin functions === //
+
+void User::adminMenu(string filename) {
+    if (!admin) {
+        // not allowed to access this function if user is not an admin
+        return;
+    }
+
+    string input;
+    char choice;
+
+    cout << "===========================" << endl;
+    cout << "        Admin Menu         " << endl;
+    cout << "===========================" << endl;
+    cout << endl;
+    do {
+        cout << "Please choose an action: " << endl;
+        cout << "   A) Edit a Record" << endl;
+        cout << "   B) Delete a Record" << endl;
+        cout << "   C) Continue to Timer app" << endl;
+
+        cin >> input;
+        cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+
+        if (input.size() >1) {
+            cout << input << " is not a valid choice." << endl;
+            continue;
+        }
+
+        choice = input[0];
+
+        switch (choice) {
+            case 'A':
+                edit(filename);
+                break;
+            
+            case 'B':
+                remove(filename);
+                break;
+
+            case 'C':
+                break;
+            
+            default:
+            cout << choice << " is not a valid choice." << endl;
+            break;
+        }
+        cout << endl;
+    } while (choice != 'C');
+}
+
+int User::find(string name, string filename) {
+    char buffer[USERDATA_SIZE];
+    int nUsers;
+    int found;
+
+    ifstream infile(filename, ios::in | ios::binary);
+
+    infile.seekg(0, ios::beg);
+    infile.read(reinterpret_cast<char*>(&nUsers), sizeof(nUsers));
+
+    for (int i = 0; i < nUsers; i++) {
+        infile.seekg(i* (2*USERDATA_SIZE + 2*__SIZEOF_INT__ + 1) + __SIZEOF_INT__);
+        infile.read(reinterpret_cast<char*>(&buffer), sizeof(buffer));
+        cout << i+1 << ". " << buffer << endl;
+
+        // if user is found, return byte at which user data is stored.
+        if (buffer == name) {
+            infile.seekg(-USERDATA_SIZE, ios::cur); // back it up
+            found = infile.tellg();
+            infile.close();
+
+            return found;
+        }
+    }
+
+    // if user not found return -1
+    return -1;
+}
+
+void User::edit(string filename) {
+    if (!admin) {
+        // not allowed to access this function if user is not an admin
+        return;
+    }
+    int editPos;
+    char tempname[USERDATA_SIZE];
+
+    cout << "Enter a username: ";
+    cin.getline(tempname, USERDATA_SIZE);
+
+    if (!isValidName(tempname)) {
+        cout << "Invalid name." << endl;
+        return;
+    }
+    editPos = find(tempname, filename);
+
+    if (editPos == -1) {
+        cout << "User could not be found." << endl;
+        return;
+    }
+
+    char choice;
+    string input;
+    int temptime;
+
+    fstream editfile(filename, ios::binary | ios::in | ios::out);
+
+    
+    do {
+        cout << "What would you like to edit for " << tempname << "?" << endl;
+        cout << "   A) Total standard timer time" << endl;
+        cout << "   B) Total pomodoro timer time" << endl;
+        cout << "   C) Quit" << endl;
+
+        cin >> input;
+        cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+
+        if (input.size() >1) {
+            cout << input << " is not a valid choice." << endl;
+            continue;
+        }
+
+        choice = input[0];
+
+        switch (choice) {
+            case 'A':
+                cout << "Enter a new total time in seconds: ";
+                cin >> temptime;
+                if (!cin.fail()) {
+                    int newPos;
+                    newPos = editPos + 2*USERDATA_SIZE;
+
+                    editfile.seekp(newPos, ios::beg);
+                    editfile.write(reinterpret_cast<char*>(&temptime), sizeof(temptime));
+                } else {
+                    cout << "That was not a valid input." << endl;
+                    editfile.close();
+                    return;
+                }
+                break;
+            
+            case 'B':
+                cout << "Enter a new total time in seconds: ";
+                cin >> temptime;
+                if (!cin.fail()) {
+                    int newPos;
+                    newPos = editPos + 2*USERDATA_SIZE + __SIZEOF_INT__;
+
+                    editfile.seekp(newPos, ios::beg);
+                    editfile.write(reinterpret_cast<char*>(&temptime), sizeof(temptime));
+                } else {
+                    cout << "That was not a valid input." << endl;
+                    editfile.close();
+                    return;
+                }
+                break;
+
+            case 'C':
+                break;
+            
+            default:
+            cout << choice << " is not a valid choice." << endl;
+            break;
+        }
+        cout << endl;
+    } while (choice != 'C');
+    editfile.close();
+    return;
+}
+
+void User::remove(string filename) {
+    if (!admin) {
+        // not allowed to access this function if user is not an admin
+        return;
+    }
 }

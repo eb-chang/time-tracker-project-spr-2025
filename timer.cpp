@@ -11,10 +11,6 @@ Timer::Timer() {
     done = false;
 }
 
-Timer::Timer(int tFocus) {
-    focusTime = tFocus;
-}
-
 // === setters === //
 void Timer::setDone(bool flag) {
     done = flag;
@@ -180,7 +176,7 @@ int Timer::customTime() {
 
             // check if input is integer
             if (cin.fail()) {
-                cout << "cin.fail" << endl;
+                cout << "That is not a valid input." << endl;
                 cin.clear();    // clear error flag
                 cin.ignore(numeric_limits<std::streamsize>::max(), '\n'); // flush buffer
                 
@@ -189,7 +185,7 @@ int Timer::customTime() {
 
             // double check for characters after parsed int
             if (cin.peek() != '\n') {
-                cout << "not completely a number" << endl;
+                cout << "That is not a valid input." << endl;
 
                 // flush buffer for new input since NaN
                 cin.ignore(numeric_limits<std::streamsize>::max(), '\n');

@@ -16,7 +16,6 @@ class Pomodoro : public Timer {
     public:
         // constructors
         Pomodoro();
-        Pomodoro(int ftime, int btime, int reps);
         
         // setters
         void setBreakTime(int btime);

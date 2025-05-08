@@ -15,7 +15,6 @@ class Timer {
     public:
         //constructors
         Timer();
-        Timer(int tFocus);
 
         //setters
         void setFocusTime(int tFocus);
@@ -32,13 +31,6 @@ class Timer {
 
         void selectFocusTime(); // let user select a focus time for timer
         int customTime();      // allow user to set a custom time
-
-        void start();
-        void stop();
-        void cancel(); //note: output amt of time actually focused: focusTime-time remaining on timer
-
-        //destructor
-        //~Timer();
 };
 
 #endif //TIMER_H

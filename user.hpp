@@ -18,6 +18,7 @@ class User {
         char name[USERDATA_SIZE] ; // user's name
         char password[USERDATA_SIZE]; // user's password
         int pos;    // byte position of user data
+        bool admin; // is the user an admin?
         
         int stdTotal;   // total time focused for standard timer
         int pomTotal;   // total time focused for pomodoro timer
@@ -25,22 +26,18 @@ class User {
         Timer timer;        // holds current timer info
         Pomodoro pomodoro;  // holds current pomodoro info
 
-        // stretch goal: History storage
-        /* vector<Timer> tHistory;
-        vector<Pomodoro> pHistory; */
     public:
         //constructor
         User();
 
-        //setters
-        void setName(string nm);
-        void setPassword(string pwd);
-        void setStdTot(int stdTot);
-        void setPomTot(int pomTot);
-
         //getters
         string getName();
         string getPassword();
+        int getPos();
+        bool isAdmin();
+
+        int getTotstdtim();
+        int getTotpomtim();
         Timer getstdtim();
         Pomodoro getpomtim();
 
@@ -60,9 +57,14 @@ class User {
 
         bool login(string filename);
         bool signup(string filename);
-        
 
         void save(string filename);
+
+        // admin functions
+        void adminMenu(string filename);
+        int find(string name, string filename);
+        void edit(string filename);
+        void remove(string filename);
 
         
         

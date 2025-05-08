@@ -11,12 +11,6 @@ Pomodoro::Pomodoro() {
     this->nReps = 0;
 }
 
-Pomodoro::Pomodoro(int ftime, int btime, int reps) {
-    setFocusTime(ftime);
-    this->breakTime = btime;
-    this->nReps = reps;
-}
-
 // === setters === //
 
 void Pomodoro::setBreakTime(int btime) {
@@ -48,8 +42,9 @@ bool Pomodoro::confirm() {
     int bMinutes = breakTime/60;
     int bSeconds = breakTime%60;
 
-    cout << "Would you like to start a timer for " << minutes << " min " << seconds << "s," << endl;
-    cout << "with a " << bMinutes << " min " << bSeconds << " s break?" << endl;
+    cout << "Would you like to start a timer for " << minutes << "min " << seconds << "s," << endl;
+    cout << "with a " << bMinutes << "min " << bSeconds << "s break" << endl;
+    cout << "for " << nReps << " repetitions?" << endl;
     cout << "   A) Start" << endl;
     cout << "   B) Cancel" << endl;
     do {
@@ -83,7 +78,7 @@ void Pomodoro::displayBreak() {
     for (int i = getBreakTime(); i>=0; --i) {
         int bmin = i/60;
         int bsec = i%60;
-        cout << "\rBreak time remaining:"
+        cout << "\rBreak time remaining: "
         << setw(2) << setfill('0') << bmin << ":" // minutes left
         << setw(2) << setfill('0') << bsec       // seconds left
         << flush;                                    // flush output
@@ -244,7 +239,7 @@ int Pomodoro::customReps() {
 
             // check if input is integer
             if (cin.fail()) {
-                cout << "cin.fail" << endl;
+                cout << "That is not a valid input." << endl;
                 cin.clear();    // clear error flag
                 cin.ignore(numeric_limits<std::streamsize>::max(), '\n'); // flush buffer
                 
@@ -253,7 +248,7 @@ int Pomodoro::customReps() {
 
             // double check for characters after parsed int
             if (cin.peek() != '\n') {
-                cout << "not completely a number" << endl;
+                cout << "That is not a valid input." << endl;
 
                 // flush buffer for new input since NaN
                 cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
