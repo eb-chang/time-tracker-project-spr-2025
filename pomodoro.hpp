@@ -27,7 +27,13 @@ class Pomodoro : public Timer {
         int getReps();
 
         // functions
+        bool confirm();
+        void displayBreak();
+        bool run();
+
         void selectBreakTime();
+        void selectReps();
+        int customReps();
 };
 
 #endif //POMODORO_H
