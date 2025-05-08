@@ -31,6 +31,10 @@ int Timer::getFocusTime() {
 }
 
 // === functions === //
+/*
+Allows user to confirm that their chosen timer parameters are correct.
+To be used in the run() function
+*/
 bool Timer::confirm() {
     string input;
     char choice;
@@ -68,6 +72,10 @@ bool Timer::confirm() {
     return false;
 }
 
+/*
+Displays a timer that counts down for the user.
+To be used in the run() function
+*/
 void Timer::display() {
     for (int i = this->focusTime; i >= 0; --i) {
         // update minutes and seconds for display
@@ -89,6 +97,10 @@ void Timer::display() {
     done = true;
 }
 
+/*
+Runs the timer for the user.
+Returns true if the timer has completely run out.
+*/
 bool Timer::run() {
     // reset done flag
     done = false;

@@ -32,6 +32,12 @@ int Pomodoro::getReps() {
 }
 
 // === functions === //
+
+/*
+Overloads Timer::confirm().
+Allows user to confirm that their chosen pomodoro timer parameters are correct.
+To be used in the Pomodoro::run() function
+*/
 bool Pomodoro::confirm() {
     string input;
     char choice;
@@ -74,6 +80,10 @@ bool Pomodoro::confirm() {
     return false;
 }
 
+/*
+Displays a timer that counts down break time for the user.
+To be used in the run() function
+*/
 void Pomodoro::displayBreak() {
     for (int i = getBreakTime(); i>=0; --i) {
         int bmin = i/60;
@@ -88,6 +98,11 @@ void Pomodoro::displayBreak() {
     cout << "\rBreak time's up!             " << endl;
 }
 
+/*
+Overloads Timer::run().
+Runs the timer for the user.
+Returns true if all timer repetitions have been completed. 
+*/
 bool Pomodoro::run() {
     // reset done flag
     setDone(false);
@@ -105,6 +120,10 @@ bool Pomodoro::run() {
     return isDone();
 }
 
+/*
+Displays menu to grab user input
+to select from preset values for break timer lengths
+*/
 void Pomodoro::selectBreakTime() {
     string input;
     char choice;
@@ -227,6 +246,9 @@ void Pomodoro::selectReps() {
     return;
 }
 
+/*
+Takes user input to grab a user-input integer number of repetitions
+*/
 int Pomodoro::customReps() {
     int customReps;
     bool valid = false;
