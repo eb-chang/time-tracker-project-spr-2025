@@ -1,16 +1,17 @@
-#include "menu_class.hpp"
+#include "user.hpp"
+#include "pomodoro.hpp"
+#include "timer.hpp"
 
 #include <string>
 
 using namespace std;
 
 int main(){
-    Menu startMenu("Welcome! Please select an option:");
-    startMenu.addOption("Log-in");
-    startMenu.addOption("Sign-up");
+    string filename = "test2.bin";
+    User testUser;
+    testUser.startMenu( filename );
+    testUser.timerMenu();
 
-    startMenu.print();
-    int choice;
-    choice = startMenu.getChoice();
-    cout << choice;
+    testUser.save( filename );
+    return 0;
 }
