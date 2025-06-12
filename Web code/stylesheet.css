@@ -7,7 +7,7 @@ body.bg {
 h1.menu-title {
   color:#362412;
   font-size:28pt;
-  font-weight:350;
+  font-weight:400;
 }
 
 div.menu-container {
@@ -22,11 +22,11 @@ div.menu-container {
   background-color:rgba(0, 0, 0, 0.222); */
 }
 
-a.darkbutton {
+.darkbutton {
   border:none;
   transition-duration:50ms;
   text-align:center;
-  font-size:14pt;
+  font-size:12pt;
   padding: 5px 0px;
   margin:10px;
   width:175px;
@@ -34,14 +34,36 @@ a.darkbutton {
   border-radius:5px;
   background-color: #362412;
   text-decoration:none;
+  font-weight:400;
 }
 
-a.darkbutton:hover {
+.darkbutton:hover {
   background-color: #110c07;
+  cursor:pointer;
 }
 
-a.darkbutton:active {
+.darkbutton:active {
   background-color: #7B6A41;
+}
+
+.lightbutton {
+  border: #362412 2px solid;
+  transition-duration:50ms;
+  text-align:center;
+  font-size:12pt;
+  padding: 5px 0px;
+  margin:10px;
+  width:175px;
+  color: #362412;
+  border-radius:5px;
+  background:none;
+  text-decoration:none;
+  font-weight:400;
+}
+
+.lightbutton:hover {
+ background-color: #36241233;
+ cursor:pointer;
 }
 
 p.small-emph {
@@ -49,3 +71,100 @@ p.small-emph {
   font-weight:normal;
   font-size:12pt;
 }
+
+.login-text::placeholder {
+  color: #7B6A41;
+  font-weight:normal;
+  font-size:12pt;
+}
+
+.login-text {
+  background-color: #ffffffae;
+  border:none;
+  border-radius:3px;
+  width:200px;
+  padding: 5px;
+  margin:10px;
+}
+
+.description-text {
+  width:200px;
+  text-align:left;
+}
+
+.vertical {
+  display:block;
+}
+
+.time-display {
+  font-weight:800;
+  font-family:"Roboto", sans-serif;
+  font-size:130pt;
+  width:170pt;
+  color:#362412;
+  text-align:right;
+  background:none;
+  border:none;
+  outline:none;
+  border-radius:8px;
+}
+
+.time-display::placeholder {
+  color:#7b6a41ac;
+  font-weight:800;
+  text-align:center;
+}
+
+.time-display:hover {
+  text-decoration:underline;
+}
+
+.time-display:focus {
+  background-color:#36241213;
+}
+.empty {
+  background:none;
+  border:none;
+}
+
+.modal {
+  display:block; /* hidden by default */
+  position:fixed;
+  z-index:1;
+  width:150%;
+  height:150%;
+  overflow:auto;
+  background-color:#36241282;
+}
+
+.modal-content {
+  background-color:#c8c291;
+  width:500px;
+  height:500px;
+  margin:5% auto 15% auto;
+}
+
+.colon {
+  font-weight:800;
+  font-size:130pt;
+  font-family:"Roboto", sans-serif;
+  color:#362412
+}
+
+.hide {
+  display:none;
+}
+/* hide number input spinners */
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+form {
+  text-align:center;
+}
+

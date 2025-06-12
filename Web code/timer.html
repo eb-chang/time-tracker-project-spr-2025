@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="./stylesheet.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+<script src="timer.js"></script>
+</head>
+
+<body class="bg">
+
+  <div class="menu-container">
+    <!-- Title -->
+    <h1 class="menu-title" id="selection-title">click to select amount of time</h1>
+    
+    <!-- Click on time display to change the time -->
+    <span id="timer-interface">
+      <!-- TODO: make sure that if all number fields are zero, no timer will start.-->
+      <input type="number" id="hr" label="hours" class="time-display" placeholder="00" min="0" max="99" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==2) return false;" ><span class="colon">:</span>
+      <input type="number" id="min" label="minutes" class="time-display" placeholder="00" min="0" max="59" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==2) return false;" ><span class="colon">:</span>
+      <input type="number" id="sec" label="seconds" class="time-display" placeholder="00" min="0" max="59" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==2) return false;" >
+    </span>
+    <div id="timer-display" style="display:none">
+      <span class="time-display" id="hr-display"></span><span class="colon">:</span>
+      <span class="time-display" id="min-display"></span><span class="colon">:</span>
+      <span class="time-display" id="sec-display"></span><span class="colon"></span>
+    </div>
+
+    <p class="small-emph vertical">hours : minutes : seconds</p>
+
+    <button type="button" id="timer-start" class="darkbutton vertical" onclick="timer.startTime()" >start timer</button>
+    <!-- Go back to main menu -->
+    <a href="main-menu.php" class="lightbutton">back</a>
+  </div>
+</body>
+
+</html>
